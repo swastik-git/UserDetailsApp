@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/DancingScript-Regular.ttf",
+      "sha1": "b52e869bd47b6e98fd907ae00b1828916451b3b0"
+    },
+    {
+      "path": "assets/fonts/StyleScript-Regular.ttf",
+      "sha1": "ff7e6779c0c210c8d00083bce96c94e6cb0c3944"
+    }
+  ]
+}

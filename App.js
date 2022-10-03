@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,11 +6,23 @@ import {
   StatusBar,
   View,
   Dimensions,
-  FlatList, Modal, Pressable, BackHandler, Alert
+  FlatList, Modal, Pressable, BackHandler, Alert, ActivityIndicator, RefreshControl, Wai
 } from 'react-native';
 import { DataTable, Avatar } from 'react-native-paper';
 
 const App = () => {
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
 
   useEffect(() => {
     const backAction = () => {
@@ -53,14 +65,6 @@ const App = () => {
       console.error(error);
     }
   };
-
-  // const handleUserRowClick = (Userdata) => {
-
-  // }
-
-  // const showModal = () => {
-  //   return()
-  // }
 
   // function for showing male or femal image
   function maleFemaleIconRender(itemData, size = 40) {
@@ -175,8 +179,12 @@ const App = () => {
           </DataTable.Header>
           <View style={{ height: screenHeight }}>
             <FlatList
-              // refreshing={true}
-              // onRefresh()
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
+              }
               data={Object.keys(allUsers)}
               renderItem={({ item }) => (renderTableData(allUsers[item]))}
               style={styles.scrollView}
